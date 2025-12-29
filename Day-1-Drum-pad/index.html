@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Drum Pad</title>
+    <link rel="shortcut icon" href="drums.jpg" type="image/x-icon" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="drum-container">
+      <div class="drum-kit">
+        <div class="drum key-a" data-key="a">
+          <span class="key">A</span>
+          <span class="sound">Boom</span>
+        </div>
+
+        <div class="drum key-s" data-key="s">
+          <span class="key">S</span>
+          <span class="sound">Clap</span>
+        </div>
+
+        <div class="drum key-d" data-key="d">
+          <span class="key">D</span>
+          <span class="sound">Hi-Hat</span>
+        </div>
+
+        <div class="drum key-f" data-key="f">
+          <span class="key">F</span>
+          <span class="sound">Kick</span>
+        </div>
+
+        <div class="drum key-g center" data-key="g">
+          <span class="key">G</span>
+          <span class="sound">Snare</span>
+        </div>
+
+        <div class="drum key-h" data-key="h">
+          <span class="key">H</span>
+          <span class="sound">Open-Hat</span>
+        </div>
+
+        <div class="drum key-j" data-key="j">
+          <span class="key">J</span>
+          <span class="sound">Ride</span>
+        </div>
+
+        <div class="drum key-k" data-key="k">
+          <span class="key">K</span>
+          <span class="sound">Tink</span>
+        </div>
+
+        <div class="drum key-l" data-key="l">
+          <span class="key">L</span>
+          <span class="sound">Tom</span>
+        </div>
+      </div>
+    </div>
+    <audio data-key="a" src="./sounds/boom.wav"></audio>
+    <audio data-key="s" src="./sounds/clap.wav"></audio>
+    <audio data-key="d" src="./sounds/hihat.wav"></audio>
+    <audio data-key="f" src="./sounds/kick.wav"></audio>
+    <audio data-key="g" src="./sounds/snare.wav"></audio>
+    <audio data-key="h" src="./sounds/openhat.wav"></audio>
+    <audio data-key="j" src="./sounds/ride.wav"></audio>
+    <audio data-key="k" src="./sounds/tink.wav"></audio>
+    <audio data-key="l" src="./sounds/tom.wav"></audio>
+    <script src="./script.js"></script>
+  </body>
+</html>
