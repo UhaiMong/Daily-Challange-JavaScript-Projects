@@ -8,7 +8,7 @@
 
 body {
   height: 100vh;
-  background: url("drums.jpg") center / cover no-repeat;
+  background: url("assets/drums.jpg") center / cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
