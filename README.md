@@ -16,7 +16,17 @@
 
 ---
 
-## Day-3 Upcoming
+## Day-3 CSS card customization
+
+#### Live URL
+
+[live](https://csscardvariable.netlify.app/)
+
+---
+
+---
+
+## Day-4 upcomming
 
 #### Live URL
 
