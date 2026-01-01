@@ -1,0 +1,143 @@
+/* Base Reset */
+* {
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 40px;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+}
+
+/* CSS Variables */
+:root {
+  --width: 350px;
+  --height: 350px;
+  --padding: 5px;
+  --margin-top: 10px;
+  --margin-right: 10px;
+  --margin-bottom: 10px;
+  --margin-left: 10px;
+  --background-color: #dddddd;
+  --shadow-color: rgba(149, 157, 165, 0.2);
+  --box-shadow: var(--shadow-color) 0px 8px 24px;
+  --border-radius: 10px;
+  --blur: 0px;
+}
+
+/* Headings */
+h1 {
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* Controls */
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 50px;
+}
+
+.control-group {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.control-group h2 {
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.control-group label {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+}
+input[type="range"] {
+  width: 100%;
+  height: 5px;
+  outline: none;
+  border-radius: 12px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+input[type="color"] {
+  width: 100%;
+  border: none;
+  padding: 0;
+  outline: none;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+/* Preview Section */
+.preview {
+  width: 50%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Card */
+.card {
+  width: var(--width);
+  height: var(--height);
+  padding: var(--padding);
+  margin: var(--margin-top) var(--margin-right) var(--margin-bottom)
+    var(--margin-left);
+  background: var(--background-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  filter: blur(var(--blur));
+  transition: all 0.3s ease;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Output */
+.output-container {
+  flex: auto;
+  display: flex;
+}
+.output {
+  width: 50%;
+  background: #111;
+  padding: 20px;
+  border-radius: 12px;
+  position: relative;
+}
+.copy-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #2c5364;
+  color: #dddddd;
+  border: none;
+  padding: 2px 4px;
+  cursor: pointer;
+}
+
+.output h2 {
+  margin-bottom: 10px;
+}
+
+pre {
+  margin: 0;
+  overflow-x: auto;
+}
+
+code {
+  color: #00ffc6;
+  font-size: 14px;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RGBA Color Picker</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .picker-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 300px;
+      }
+      .preview {
+        width: 100%;
+        height: 100px;
+        border-radius: 5px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+      }
+      .rgba-code {
+        margin-top: 10px;
+        font-weight: bold;
+        background: #eee;
+        padding: 5px;
+        border-radius: 4px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="picker-container">
+      <label for="color">Pick Color:</label>
+      <input type="color" id="color" value="#ff0000" />
+
+      <label for="alpha">Alpha (Transparency):</label>
+      <input type="range" id="alpha" min="0" max="1" step="0.01" value="1" />
+
+      <div class="preview" id="preview"></div>
+      <div class="rgba-code" id="rgbaCode">rgba(255, 0, 0, 1)</div>
+    </div>
+
+    <script>
+      const colorInput = document.getElementById("color");
+      const alphaInput = document.getElementById("alpha");
+      const preview = document.getElementById("preview");
+      const rgbaCode = document.getElementById("rgbaCode");
+
+      // Convert HEX to RGB
+      function hexToRgb(hex) {
+        hex = hex.replace(/^#/, "");
+        if (hex.length === 3) {
+          hex = hex
+            .split("")
+            .map((h) => h + h)
+            .join("");
+        }
+        const bigint = parseInt(hex, 16);
+        return {
+          r: (bigint >> 16) & 255,
+          g: (bigint >> 8) & 255,
+          b: bigint & 255,
+        };
+      }
+
+      function updateColor() {
+        const rgb = hexToRgb(colorInput.value);
+        const alpha = parseFloat(alphaInput.value);
+        const rgba = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
+        preview.style.backgroundColor = rgba;
+        rgbaCode.textContent = rgba;
+      }
+
+      colorInput.addEventListener("input", updateColor);
+      alphaInput.addEventListener("input", updateColor);
+
+      // Initialize
+      updateColor();
+    </script>
+  </body>
+</html>

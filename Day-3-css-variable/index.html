@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CSS Variable</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>CSS Variables</h1>
+    <!-- Controls -->
+    <section class="controls">
+      <div class="control-group">
+        <h2>Size And Border</h2>
+        <label>Width </label>
+        <input
+          type="range"
+          min="150"
+          max="500"
+          value="350"
+          data-var="--width"
+          data-unit="px"
+        />
+
+        <label>Height</label>
+        <input
+          type="range"
+          min="150"
+          max="500"
+          value="350"
+          data-var="--height"
+          data-unit="px"
+        />
+        <label>Border Radius</label>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="0"
+          data-var="--border-radius"
+          data-unit="%"
+        />
+      </div>
+
+      <div class="control-group">
+        <h2>Spacing</h2>
+        <label>Padding</label>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="5"
+          data-var="--padding"
+          data-unit="px"
+        />
+
+        <label>Margin Top</label>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="10"
+          data-var="--margin-top"
+          data-unit="px"
+        />
+        <label>Margin Right</label>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="10"
+          data-var="--margin-right"
+          data-unit="px"
+        />
+        <label>Margin Bottom</label>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="10"
+          data-var="--margin-bottom"
+          data-unit="px"
+        />
+        <label>Margin Left</label>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value="10"
+          data-var="--margin-left"
+          data-unit="px"
+        />
+      </div>
+
+      <div class="control-group">
+        <h2>Appearance</h2>
+        <label>Background</label>
+        <input type="color" value="#dddddd" data-var="--background-color" />
+
+        <label>Shadow Color</label>
+        <input type="color" value="#95a0a5" data-var="--shadow-color" />
+
+        <label>Blur</label>
+        <input
+          type="range"
+          min="0"
+          max="25"
+          value="0"
+          data-var="--blur"
+          data-unit="px"
+        />
+      </div>
+    </section>
+
+    <!-- Preview -->
+    <div class="output-container">
+      <section class="preview">
+        <div class="card">
+          <img src="https://i.ibb.co.com/PxGFVFK/news.jpg" alt="Preview" />
+        </div>
+      </section>
+
+      <!-- CSS Variables Output -->
+      <section class="output">
+        <h2>CSS Variables</h2>
+        <pre><code>
+            <!-- Code Block -->
+    </code></pre>
+        <button onclick="copyToClipboard()" class="copy-button">Copy</button>
+      </section>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
