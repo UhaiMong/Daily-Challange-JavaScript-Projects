@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Personal Notebook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #0f1216;
+        --panel: #151922;
+        --muted: #8ea0b5;
+        --text: #e6edf3;
+        --accent: #6cb6ff;
+        --accent-2: #3fb950;
+        --danger: #f85149;
+        --border: #263041;
+        --focus: #9cdcfe;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial;
+      }
+      .app {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 24px;
+        display: grid;
+        gap: 16px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      header h1 {
+        font-size: 1.4rem;
+        margin: 0;
+      }
+      .toolbar {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .search {
+        flex: 1 1 280px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        border-radius: 10px;
+      }
+      .search input {
+        width: 100%;
+        border: 0;
+        outline: none;
+        background: transparent;
+        color: var(--text);
+        font-size: 0.95rem;
+      }
+      .select,
+      .btn {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-size: 0.95rem;
+        cursor: pointer;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn.primary {
+        border-color: #2a3750;
+        background: #1b2130;
+      }
+      .btn.accent {
+        border-color: #2a3750;
+        background: #152338;
+        color: var(--accent);
+      }
+      .btn.danger {
+        color: var(--danger);
+      }
+      .btn:focus,
+      .select:focus,
+      .search input:focus {
+        outline: 2px solid var(--focus);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      @media (min-width: 840px) {
+        .grid {
+          grid-template-columns: 1fr 1.2fr;
+        }
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+      }
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 1.1rem;
+      }
+      .field {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 10px;
+      }
+      .field label {
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      .input,
+      .textarea {
+        width: 100%;
+        background: #0e141b;
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 0.95rem;
+      }
+      .textarea {
+        min-height: 140px;
+        resize: vertical;
+        line-height: 1.5;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 8px;
+      }
+      .notes {
+        display: grid;
+        gap: 10px;
+      }
+      .note {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        background: #121724;
+        display: grid;
+        gap: 8px;
+      }
+      .note-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10px;
+      }
+      .note-title {
+        font-weight: 600;
+        margin: 0;
+        font-size: 1rem;
+        word-break: break-word;
+      }
+      .note-meta {
+        color: var(--muted);
+        font-size: 0.8rem;
+        white-space: nowrap;
+      }
+      .note-content {
+        color: #c9d1d9;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .note-controls {
+        display: flex;
+        gap: 6px;
+        justify-content: flex-end;
+      }
+      .empty {
+        color: var(--muted);
+        text-align: center;
+        border: 1px dashed var(--border);
+        border-radius: 10px;
+        padding: 18px;
+      }
+      footer {
+        color: var(--muted);
+        font-size: 0.8rem;
+        text-align: center;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app" aria-label="Personal Notebook">
+      <header>
+        <h1>Notebook</h1>
+        <div class="toolbar" role="toolbar" aria-label="Notebook tools">
+          <div class="search" aria-label="Search notes">
+            <span aria-hidden="true">🔎</span>
+            <input
+              id="search"
+              type="search"
+              placeholder="Search title or content…"
+            />
+          </div>
+          <select id="sort" class="select" aria-label="Sort notes">
+            <option value="updated_desc">Updated (newest)</option>
+            <option value="updated_asc">Updated (oldest)</option>
+            <option value="title_asc">Title (A–Z)</option>
+            <option value="title_desc">Title (Z–A)</option>
+          </select>
+          <button
+            id="exportBtn"
+            class="btn accent"
+            title="Export notes as JSON"
+          >
+            ⬇ Export
+          </button>
+          <button
+            id="importBtn"
+            class="btn primary"
+            title="Import notes from JSON"
+          >
+            ⬆ Import
+          </button>
+        </div>
+      </header>
+
+      <section class="grid">
+        <section class="card" aria-label="Create or edit note">
+          <h2 id="formTitle">New note</h2>
+          <form id="noteForm" novalidate>
+            <input type="hidden" id="noteId" />
+            <div class="field">
+              <label for="title">Title</label>
+              <input
+                id="title"
+                class="input"
+                type="text"
+                maxlength="120"
+                required
+                placeholder="e.g., Project ideas"
+              />
+            </div>
+            <div class="field">
+              <label for="content">Content</label>
+              <textarea
+                id="content"
+                class="textarea"
+                required
+                placeholder="Write your thoughts…"
+              ></textarea>
+            </div>
+            <div class="actions">
+              <button type="submit" class="btn accent">Save</button>
+              <button type="button" id="resetBtn" class="btn">Clear</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card" aria-label="Notes list">
+          <h2>Your notes</h2>
+          <div id="notes" class="notes" role="list"></div>
+          <div id="empty" class="empty" hidden>
+            No notes yet. Add your first one!
+          </div>
+        </section>
+      </section>
+
+      <footer>Stored locally in your browser. No account, no server.</footer>
+    </main>
+
+    <script>
+      // Utilities
+      const $ = (sel) => document.querySelector(sel);
+      const uid = () =>
+        crypto.randomUUID
+          ? crypto.randomUUID()
+          : Math.random().toString(36).slice(2);
+      const nowISO = () => new Date().toISOString();
+      const STORAGE_KEY = "notebook.notes.v1";
+
+      // State
+      let notes = loadNotes();
+      let query = "";
+      let sortKey = "updated_desc";
+
+      // Init
+      bindEvents();
+      render();
+
+      function bindEvents() {
+        $("#noteForm").addEventListener("submit", handleSubmit);
+        $("#resetBtn").addEventListener("click", resetForm);
+        $("#search").addEventListener("input", (e) => {
+          query = e.target.value.trim().toLowerCase();
+          render();
+        });
+        $("#sort").addEventListener("change", (e) => {
+          sortKey = e.target.value;
+          render();
+        });
+        $("#exportBtn").addEventListener("click", exportNotes);
+        $("#importBtn").addEventListener("click", importNotes);
+      }
+
+      // Storage
+      function loadNotes() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const data = raw ? JSON.parse(raw) : [];
+          return Array.isArray(data) ? data : [];
+        } catch {
+          return [];
+        }
+      }
+      function saveNotes() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+      }
+
+      // CRUD
+      function handleSubmit(e) {
+        e.preventDefault();
+        const id = $("#noteId").value || null;
+        const title = $("#title").value.trim();
+        const content = $("#content").value.trim();
+
+        if (!title || !content) {
+          alert("Please add both a title and content.");
+          return;
+        }
+
+        if (id) {
+          const idx = notes.findIndex((n) => n.id === id);
+          if (idx !== -1) {
+            notes[idx] = { ...notes[idx], title, content, updatedAt: nowISO() };
+          }
+        } else {
+          notes.unshift({
+            id: uid(),
+            title,
+            content,
+            createdAt: nowISO(),
+            updatedAt: nowISO(),
+          });
+        }
+
+        saveNotes();
+        resetForm();
+        render();
+      }
+
+      function resetForm() {
+        $("#noteId").value = "";
+        $("#title").value = "";
+        $("#content").value = "";
+        $("#formTitle").textContent = "New note";
+        $("#title").focus();
+      }
+
+      function editNote(id) {
+        const n = notes.find((n) => n.id === id);
+        if (!n) return;
+        $("#noteId").value = n.id;
+        $("#title").value = n.title;
+        $("#content").value = n.content;
+        $("#formTitle").textContent = "Edit note";
+        $("#title").focus();
+      }
+
+      function deleteNote(id) {
+        const n = notes.find((n) => n.id === id);
+        const ok = confirm(`Delete "${n?.title || "this note"}"?`);
+        if (!ok) return;
+        notes = notes.filter((n) => n.id !== id);
+        saveNotes();
+        render();
+      }
+
+      // Import/Export
+      function exportNotes() {
+        const blob = new Blob([JSON.stringify(notes, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "notes.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function importNotes() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "application/json";
+        input.onchange = async () => {
+          const file = input.files[0];
+          if (!file) return;
+          try {
+            const text = await file.text();
+            const imported = JSON.parse(text);
+            if (!Array.isArray(imported)) throw new Error("Invalid format");
+            // Basic validation
+            const cleaned = imported
+              .filter(
+                (n) =>
+                  n &&
+                  typeof n.title === "string" &&
+                  typeof n.content === "string"
+              )
+              .map((n) => ({
+                id: n.id || uid(),
+                title: n.title,
+                content: n.content,
+                createdAt: n.createdAt || nowISO(),
+                updatedAt: n.updatedAt || nowISO(),
+              }));
+            notes = cleaned;
+            saveNotes();
+            render();
+          } catch (err) {
+            alert("Failed to import. Ensure the file is a valid notes.json.");
+          }
+        };
+        input.click();
+      }
+
+      // Render
+      function render() {
+        const list = $("#notes");
+        list.innerHTML = "";
+        const filtered = filterNotes(notes, query);
+        const sorted = sortNotes(filtered, sortKey);
+
+        $("#empty").hidden = sorted.length > 0;
+
+        for (const n of sorted) {
+          const item = document.createElement("div");
+          item.className = "note";
+          item.setAttribute("role", "listitem");
+
+          const head = document.createElement("div");
+          head.className = "note-header";
+
+          const titleEl = document.createElement("h3");
+          titleEl.className = "note-title";
+          titleEl.textContent = n.title;
+
+          const meta = document.createElement("div");
+          meta.className = "note-meta";
+          meta.textContent = formatMeta(n);
+
+          head.appendChild(titleEl);
+          head.appendChild(meta);
+
+          const contentEl = document.createElement("div");
+          contentEl.className = "note-content";
+          contentEl.textContent = n.content;
+
+          const controls = document.createElement("div");
+          controls.className = "note-controls";
+
+          const editBtn = document.createElement("button");
+          editBtn.className = "btn";
+          editBtn.textContent = "Edit";
+          editBtn.addEventListener("click", () => editNote(n.id));
+
+          const delBtn = document.createElement("button");
+          delBtn.className = "btn danger";
+          delBtn.textContent = "Delete";
+          delBtn.addEventListener("click", () => deleteNote(n.id));
+
+          controls.appendChild(editBtn);
+          controls.appendChild(delBtn);
+
+          item.appendChild(head);
+          item.appendChild(contentEl);
+          item.appendChild(controls);
+          list.appendChild(item);
+        }
+      }
+
+      function filterNotes(list, q) {
+        if (!q) return list;
+        return list.filter(
+          (n) =>
+            n.title.toLowerCase().includes(q) ||
+            n.content.toLowerCase().includes(q)
+        );
+      }
+
+      function sortNotes(list, key) {
+        const c = [...list];
+        switch (key) {
+          case "updated_asc":
+            return c.sort(
+              (a, b) => new Date(a.updatedAt) - new Date(b.updatedAt)
+            );
+          case "title_asc":
+            return c.sort((a, b) => a.title.localeCompare(b.title));
+          case "title_desc":
+            return c.sort((a, b) => b.title.localeCompare(a.title));
+          case "updated_desc":
+          default:
+            return c.sort(
+              (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+            );
+        }
+      }
+
+      function formatMeta(n) {
+        const updated = new Date(n.updatedAt);
+        const date = updated.toLocaleString([], {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        return `Updated ${date}`;
+      }
+    </script>
+  </body>
+</html>

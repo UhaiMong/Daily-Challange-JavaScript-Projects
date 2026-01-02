@@ -1,0 +1,138 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+}
+
+/* Page */
+body {
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+/* =========================
+   WHITEBOARD SECTION
+========================= */
+
+.whiteboard-wrapper {
+  height: 100vh;
+  overflow-y: auto;
+  background: linear-gradient(#f9fafb 1px, transparent 1px),
+    linear-gradient(90deg, #f9fafb 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Large canvas = infinite scroll illusion */
+canvas {
+  display: block;
+  width: 100%;
+  height: 3000px; /* JS will extend later */
+  background: white;
+  cursor: crosshair;
+}
+
+/* =========================
+   CONTROL PANEL
+========================= */
+
+.control-panel {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: auto;
+  padding: 5px;
+  background: rgba(30, 41, 59, 0.65);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  cursor: grab;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+  opacity: 0.5;
+  display: flex;
+}
+
+/* Hidden default color input */
+#colorInput {
+  display: none;
+}
+
+/* Custom circular button */
+.color-picker-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 0.5px solid #333;
+  cursor: pointer;
+  background: #ff0000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.color-picker-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover / active state */
+.control-panel:hover,
+.control-panel:active {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+/* Drag feedback */
+.control-panel:active {
+  cursor: grabbing;
+}
+
+/* Controls */
+
+.control input {
+  width: 48px;
+  padding: 2px 4px;
+  border: 1.5px solid #ccc;
+  color: #fff;
+  margin: 0 6px;
+  background-color: transparent;
+}
+.control input:focus {
+  outline: none;
+  border: 1.5px solid #ccc;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  flex: 1;
+  padding: 2px 4px;
+  border: none;
+  border-radius: 6px;
+  background: #333;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #111;
+}
+
+/* Hint */
+.hint {
+  font-size: 11px;
+  text-align: center;
+  opacity: 0.6;
+}
+/* =========================
+   RESPONSIVE PREVIEW
+========================= */
