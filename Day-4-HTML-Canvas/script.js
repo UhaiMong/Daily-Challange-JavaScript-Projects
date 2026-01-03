@@ -1,7 +1,5 @@
 console.log("HTML Canvas Simple Drawing App Loaded");
 
-// Color Picker Functionality
-
 const colorInput = document.getElementById("colorInput");
 const colorButton = document.getElementById("colorButton");
 const canvas = document.getElementById("canvas");
@@ -24,8 +22,6 @@ colorInput.addEventListener("input", () => {
   colorButton.style.background = selectedColor;
 });
 
-// Color picker functionality ended.
-
 /* ===============================
    BASIC SETUP
 ================================ */
@@ -47,7 +43,7 @@ let isDrawing = false;
 let currentPath = [];
 let paths = [];
 let redoStack = [];
-let mode = "draw"; // draw | erase
+let mode = "draw"; // "draw" or "erase"
 
 ctx.lineCap = "round";
 ctx.lineJoin = "round";
