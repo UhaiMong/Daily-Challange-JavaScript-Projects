@@ -2,6 +2,8 @@ console.log("HTML Canvas Simple Drawing App Loaded");
 
 const colorInput = document.getElementById("colorInput");
 const colorButton = document.getElementById("colorButton");
+const undoBtn = document.getElementById("undoBtn");
+const redoBtn = document.getElementById("redoBtn");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -25,6 +27,22 @@ colorInput.addEventListener("input", () => {
 /* ===============================
    BASIC SETUP
 ================================ */
+
+// To detect mobile position
+function getPointerPosition(e) {
+  if (e.touches) {
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0] || e.changedTouches[0];
+    return {
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top,
+    };
+  }
+  return {
+    x: e.offsetX,
+    y: e.offsetY,
+  };
+}
 
 /* HiDPI support */
 function resizeCanvas() {
@@ -53,13 +71,15 @@ ctx.lineJoin = "round";
 ================================ */
 
 function startDrawing(e) {
+  e.preventDefault();
   isDrawing = true;
   redoStack = [];
+  const { x, y } = getPointerPosition(e);
 
   currentPath = [
     {
-      x: e.offsetX,
-      y: e.offsetY,
+      x,
+      y,
       color: colorInput.value,
       size: Number(sizeInput.value),
       mode,
@@ -68,11 +88,12 @@ function startDrawing(e) {
 }
 
 function draw(e) {
+  e.preventDefault();
   if (!isDrawing) return;
-
+  const { x, y } = getPointerPosition(e);
   const point = {
-    x: e.offsetX,
-    y: e.offsetY,
+    x,
+    y,
     color: colorInput.value,
     size: Number(sizeInput.value),
     mode,
@@ -167,7 +188,7 @@ exportBtn.addEventListener("click", () => {
 });
 
 /* ===============================
-   KEYBOARD SHORTCUTS
+   KEYBOARD SHORTCUTS FOR UNDO/REDO & MODE SWITCHING
 ================================ */
 
 window.addEventListener("keydown", (e) => {
@@ -177,8 +198,14 @@ window.addEventListener("keydown", (e) => {
   if (e.key === "b") mode = "draw";
 });
 
+/*==============================
+BUTTON EVENTS FOR UNDO/REDO Mobile & Desktop
+================================*/
+undoBtn.addEventListener("click", undo);
+redoBtn.addEventListener("click", redo);
+
 /* ===============================
-   MOUSE EVENTS
+   MOUSE EVENTS FOR DESKTOP
 ================================ */
 
 canvas.addEventListener("mousedown", startDrawing);
@@ -186,8 +213,16 @@ canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mouseup", stopDrawing);
 canvas.addEventListener("mouseleave", stopDrawing);
 
+/*==============================
+TOUCH EVENTS FOR MOBILE
+================================*/
+canvas.addEventListener("touchstart", startDrawing, { passive: false });
+canvas.addEventListener("touchmove", draw, { passive: false });
+canvas.addEventListener("touchend", stopDrawing);
+canvas.addEventListener("touchcancel", stopDrawing);
+
 /* ===============================
-   DRAGGABLE CONTROL PANEL
+   DRAGGABLE CONTROL PANEL For DESKTOP
 ================================ */
 
 let isDragging = false;
@@ -206,5 +241,25 @@ window.addEventListener("mousemove", (e) => {
 });
 
 window.addEventListener("mouseup", () => {
+  isDragging = false;
+});
+/*
+==============================
+DRAGGABLE CONTROL PANEL FOR MOBILE
+==============================
+*/
+controlPanel.addEventListener("touchstart", (e) => {
+  isDragging = true;
+  offsetX = e.clientX - controlPanel.offsetLeft;
+  offsetY = e.clientY - controlPanel.offsetTop;
+});
+
+window.addEventListener("touchmove", (e) => {
+  if (!isDragging) return;
+  controlPanel.style.left = `${e.clientX - offsetX}px`;
+  controlPanel.style.top = `${e.clientY - offsetY}px`;
+});
+
+window.addEventListener("touchend", () => {
   isDragging = false;
 });

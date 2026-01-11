@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sticky Notes App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- App Toolbar -->
+    <header class="toolbar">
+      <h1 class="app-title">Note Daily Task</h1>
+      <button id="addNoteBtn" class="add-note-btn">+ New Note</button>
+    </header>
+
+    <!-- Notes Container -->
+    <main
+      id="notesContainer"
+      class="notes-container"
+      style="
+        background-image: url(/assets/boardBg.jpg);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        width: 100%;
+        height: 100vh;
+      "
+    >
+      <!-- Notes will be injected here by JS -->
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

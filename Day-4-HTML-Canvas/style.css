@@ -31,6 +31,7 @@ canvas {
   height: 3000px; /* JS will extend later */
   background: white;
   cursor: crosshair;
+  touch-action: none;
 }
 
 /* =========================
@@ -39,20 +40,27 @@ canvas {
 
 .control-panel {
   position: fixed;
+  width: 100px;
+  height: auto;
   top: 20px;
   left: 20px;
-  width: auto;
   padding: 5px;
-  background: rgba(30, 41, 59, 0.65);
+  background: rgba(10, 10, 10, 0.758);
   backdrop-filter: blur(10px);
   color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   z-index: 10;
   cursor: grab;
   transition: opacity 0.3s ease, transform 0.2s ease;
   opacity: 0.5;
   display: flex;
+  padding: 5px 2px;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 12px;
+  touch-action: none;
 }
 
 /* Hidden default color input */
@@ -62,8 +70,8 @@ canvas {
 
 /* Custom circular button */
 .color-picker-btn {
-  width: 20px;
-  height: 20px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   border: 0.5px solid #333;
   cursor: pointer;
@@ -92,7 +100,7 @@ canvas {
 /* Controls */
 
 .control input {
-  width: 48px;
+  width: 45px;
   padding: 2px 4px;
   border: 1.5px solid #ccc;
   color: #fff;
@@ -104,20 +112,10 @@ canvas {
   border: 1.5px solid #ccc;
 }
 
-/* Buttons */
-.buttons {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-}
-
 button {
-  flex: 1;
   padding: 2px 4px;
   border: none;
-  border-radius: 6px;
-  background: #333;
+  background: transparent;
   color: white;
   font-size: 13px;
   cursor: pointer;
@@ -125,14 +123,5 @@ button {
 
 button:hover {
   background: #111;
+  border-radius: 4px;
 }
-
-/* Hint */
-.hint {
-  font-size: 11px;
-  text-align: center;
-  opacity: 0.6;
-}
-/* =========================
-   RESPONSIVE PREVIEW
-========================= */
